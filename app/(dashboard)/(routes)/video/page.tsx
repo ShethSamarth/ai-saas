@@ -14,8 +14,10 @@ import Heading from "@/components/heading"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
+import { useProModal } from "@/hooks/use-pro-modal"
 
 const VideoPage = () => {
+  const proModal = useProModal()
   const router = useRouter()
   const [video, setVideo] = useState<string>()
 
@@ -37,8 +39,9 @@ const VideoPage = () => {
       setVideo(response.data[0])
       form.reset()
     } catch (error: any) {
-      // TODO: Open Pro Modal
-      console.log(error)
+      if (error?.response?.status === 403) {
+        proModal.onOpen()
+      }
     } finally {
       router.refresh()
     }
