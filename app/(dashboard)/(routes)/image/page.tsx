@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { Download, ImageIcon } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "react-hot-toast"
 import { amountOptions, formSchema, resolutionOptions } from "./constants"
 import Empty from "@/components/empty"
 import Loader from "@/components/loader"
@@ -54,6 +55,8 @@ const ImagePage = () => {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen()
+      } else {
+        toast.error("Something went wrong")
       }
     } finally {
       router.refresh()
